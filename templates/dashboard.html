@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>IoT Device Monitoring</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <meta http-equiv="refresh" content="5">
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Multi-Device Provisioning Monitor</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Device CN</th>
+          <th>Valid From</th>
+          <th>Valid To</th>
+          <th>CRL</th>
+          <th>Cert Integrity</th>
+          <th>Key Integrity</th>
+          <th>mTLS</th>
+          <th>MITM</th>
+          <th>Last Checked</th>
+        </tr>
+      </thead>
+      <tbody id="deviceTable"></tbody>
+    </table>
+  </div>
+  <script>
+    fetch("/status")
+      .then(res => res.json())
+      .then(devices => {
+        const tbody = document.getElementById("deviceTable");
+        tbody.innerHTML = "";
+        devices.forEach(device => {
+          const row = document.createElement("tr");
+          const cell = text => {
+            const td = document.createElement("td");
+            td.textContent = text;
+            return td;
+          };
+          const badge = (ok, yes = "✅", no = "❌") => {
+            const td = document.createElement("td");
+            td.textContent = ok ? yes : no;
+            td.className = ok ? "ok" : "fail";
+            return td;
+          };
+          row.appendChild(cell(device.cn));
+          row.appendChild(cell(device.valid_from));
+          row.appendChild(cell(device.valid_to));
+          row.appendChild(badge(!device.revoked, "✅", "❌"));
+          row.appendChild(badge(device.certificate_status));
+          row.appendChild(badge(device.key_status));
+          row.appendChild(badge(device.mtls_status, "🔒", "❌"));
+          row.appendChild(badge(device.mitm_status, "✅", "⚠️"));
+          row.appendChild(cell(device.last_checked));
+          tbody.appendChild(row);
+        });
+      });
+  </script>
+</body>
+</html>

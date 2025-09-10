@@ -1,0 +1,73 @@
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = .
+certs             = $dir/certs
+crl_dir           = $dir/crl
+database          = $dir/index.txt
+new_certs_dir     = $dir/newcerts
+certificate       = $dir/certs/ca.crt
+serial            = $dir/serial
+crlnumber         = $dir/crlnumber
+crl               = $dir/crl/crl.pem
+private_key       = $dir/private/ca.key
+RANDFILE          = $dir/private/.rand
+
+default_days      = 3650
+default_crl_days  = 30
+default_md        = sha256
+preserve          = no
+policy            = policy_loose
+
+[ policy_loose ]
+countryName             = optional
+stateOrProvinceName     = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+default_md          = sha256
+x509_extensions     = v3_ca
+req_extensions      = v3_req
+prompt              = no
+
+[ req_distinguished_name ]
+C  = IN
+ST = Kerala
+L  = Kochi
+O  = MyOrg
+OU = IoT Team
+CN = localhost
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[ v3_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true
+keyUsage               = critical, digitalSignature, cRLSign, keyCertSign
+subjectAltName         = @alt_names
+
+[ server_cert ]
+basicConstraints       = CA:FALSE
+nsCertType             = server
+nsComment              = "OpenSSL Generated Server Certificate"
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid,issuer:always
+keyUsage               = digitalSignature, keyEncipherment
+extendedKeyUsage       = serverAuth
+subjectAltName         = @alt_names
+
+[ alt_names ]
+DNS.1 = localhost
+

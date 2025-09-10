@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT Monitoring Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h2>🔒 IoT Provisioning Monitoring Dashboard</h2>
+
+    <div id="status-area">
+        <p><strong>Certificate:</strong> <span id="cert_status"></span></p>
+        <p><strong>Key:</strong> <span id="key_status"></span></p>
+        <p><strong>Revocation:</strong> <span id="revocation_status"></span></p>
+        <p><strong>mTLS:</strong> <span id="mtls_status"></span></p>
+        <p><strong>MITM Detection:</strong> <span id="mitm_detection"></span></p>
+        <p><em>Last Checked:</em> <span id="last_checked"></span></p>
+    </div>
+
+    <script>
+        function fetchStatus() {
+            fetch('/status')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("cert_status").innerText = data.cert_status;
+                    document.getElementById("key_status").innerText = data.key_status;
+                    document.getElementById("revocation_status").innerText = data.revocation_status;
+                    document.getElementById("mtls_status").innerText = data.mtls_status;
+                    document.getElementById("mitm_detection").innerText = data.mitm_detection;
+                    document.getElementById("last_checked").innerText = data.last_checked;
+                })
+                .catch(err => console.error("Status fetch failed", err));
+        }
+
+        fetchStatus();
+        setInterval(fetchStatus, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+{
+  "device": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device1",
+    "valid_from": "2025-07-14 08:55:08+00:00",
+    "valid_to": "2035-07-12 08:55:08+00:00",
+    "mtls_status": true,
+    "latency": 6.553173065185547,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device10": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device10",
+    "valid_from": "2025-08-05 04:22:07+00:00",
+    "valid_to": "2035-08-03 04:22:07+00:00",
+    "mtls_status": true,
+    "latency": 5.99980354309082,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device2": {
+    "certificate_status": false,
+    "key_status": true,
+    "cn": "CN=device2",
+    "valid_from": "2025-07-14 11:43:20+00:00",
+    "valid_to": "2035-07-12 11:43:20+00:00",
+    "mtls_status": false,
+    "latency": 0,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device3": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device3",
+    "valid_from": "2025-07-14 11:43:35+00:00",
+    "valid_to": "2035-07-12 11:43:35+00:00",
+    "mtls_status": true,
+    "latency": 5.3653717041015625,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device4": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device4",
+    "valid_from": "2025-07-15 07:07:32+00:00",
+    "valid_to": "2035-07-13 07:07:32+00:00",
+    "mtls_status": true,
+    "latency": 5.229473114013672,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device6": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device6",
+    "valid_from": "2025-07-15 10:41:31+00:00",
+    "valid_to": "2035-07-13 10:41:31+00:00",
+    "mtls_status": true,
+    "latency": 7.996320724487305,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device7": {
+    "certificate_status": true,
+    "key_status": true,
+    "cn": "CN=device7",
+    "valid_from": "2025-07-16 05:52:33+00:00",
+    "valid_to": "2035-07-14 05:52:33+00:00",
+    "mtls_status": true,
+    "latency": 21.360397338867188,
+    "mitm_status": true,
+    "revoked": false
+  },
+  "device8": {
+    "certificate_status": false,
+    "key_status": false,
+    "cn": "CN=device8",
+    "valid_from": "2025-07-16 06:01:46+00:00",
+    "valid_to": "2035-07-14 06:01:46+00:00",
+    "mtls_status": false,
+    "latency": 0,
+    "mitm_status": true,
+    "revoked": true
+  }
+}

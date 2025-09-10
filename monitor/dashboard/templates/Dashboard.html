@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Provisioning Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <style>
+        /* BODY MODES */
+        body.light-mode { background-color: #fafbfc; color: #2c3e50; }
+        body.dark-mode { background-color: #121417; color: #e8eaed; }
+        * { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+
+        /* NAVBAR */
+        .navbar { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        body.light-mode .navbar { background: #ffffff; border-bottom: 1px solid #e1e8ed; }
+        body.dark-mode .navbar { background: #1e2024; border-bottom: 1px solid #3c4043; }
+
+        /* CARDS */
+        .card { border-radius: 10px; border: 1px solid; transition: all 0.3s ease; }
+        body.light-mode .card { background: #ffffff; border-color: #e1e8ed; }
+        body.dark-mode .card { background: #1e2024; border-color: #3c4043; }
+
+        /* TABLE */
+        .table { border-radius: 8px; overflow: hidden; border: 1px solid; }
+        body.light-mode .table { border-color: #e1e8ed; }
+        body.dark-mode .table { border-color: #3c4043; }
+        body.light-mode .table thead th { background: #f8f9fa; color: #5a6c7d; }
+        body.dark-mode .table thead th { background: #2a2d32; color: #9aa0a6; }
+        body.light-mode .table-striped tbody tr:nth-of-type(odd) { background: #f8f9fa; }
+        body.dark-mode .table-striped tbody tr:nth-of-type(odd) { background: #2a2d32; }
+
+        /* BADGES */
+        .badge { font-weight: 500; padding: 0.35rem 0.65rem; font-size: 0.8rem; }
+
+        /* ALERT LIST */
+        .list-group-item { border-radius: 6px; margin-bottom: 0.5rem; }
+        body.light-mode .list-group-item-danger { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
+        body.dark-mode .list-group-item-danger { background: #2d1b1b; color: #fc8181; border: 1px solid #742a2a; }
+
+        /* CHART */
+        .chart-container { height: 250px !important; width: 250px !important; margin: auto; }
+
+        /* MODE TOGGLE */
+        .mode-toggle { position: fixed; top: 15px; right: 15px; z-index: 1000; }
+        .mode-toggle .btn { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        body.light-mode .mode-toggle .btn { background: #fff; border: 1px solid #e1e8ed; color: #5a6c7d; }
+        body.dark-mode .mode-toggle .btn { background: #1e2024; border: 1px solid #3c4043; color: #9aa0a6; }
+    </style>
+</head> 
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg px-3">
+    <a class="navbar-brand fw-bold" href="#">Provisioning Dashboard</a>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4 fw-bold">Provisioning Analytics</h1>
+
+    <!-- CHARTS -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <canvas id="analyticsChart" class="chart-container"></canvas>
+                    <p class="text-center mt-2 fw-semibold">Analytics</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <canvas id="deviceStatusChart" class="chart-container"></canvas>
+                    <p class="text-center mt-2 fw-semibold">Device Status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card h-100 text-center p-3">
+                <h5 class="fw-bold">System Health</h5>
+                <p><strong>Devices with Issues:</strong> {{ issues }}</p>
+                <p><strong>Uptime:</strong> {{ uptime }}</p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card h-100 p-3">
+                <h5 class="fw-bold">Active Alerts</h5>
+                {% if alerts %}
+                    <ul class="list-group alert-list">
+                        {% for alert in alerts %}
+                        <li class="list-group-item list-group-item-danger">{{ alert }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-success fw-semibold">No active alerts.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- DEVICES -->
+    <h3 class="mb-3 fw-bold">Devices Summary</h3>
+    <div class="card p-3 mb-5">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle text-center" id="devices-summary">
+                <thead>
+                <tr>
+                    <th>Device</th><th>CN</th><th>Valid From</th><th>Valid To</th>
+                    <th>Cert</th><th>Key</th><th>mTLS</th><th>MITM</th><th>Latency</th><th>Revoked</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dev, data in statuses_json.items %}
+                <tr {% if not data.certificate_status or not data.key_status or not data.mtls_status or not data.mitm_status or data.revoked %}class="table-danger"{% endif %}>
+                    <td class="fw-bold">{{ dev }}</td>
+                    <td>{{ data.cn }}</td>
+                    <td>{{ data.valid_from }}</td>
+                    <td>{{ data.valid_to }}</td>
+                    <td>{% if data.certificate_status %}<span class="badge bg-success">Verified</span>{% else %}<span class="badge bg-danger">Failed</span>{% endif %}</td>
+                    <td>{% if data.key_status %}<span class="badge bg-success">Verified</span>{% else %}<span class="badge bg-danger">Failed</span>{% endif %}</td>
+                    <td>{% if data.mtls_status %}<span class="badge bg-success">OK</span>{% else %}<span class="badge bg-danger">Failed</span>{% endif %}</td>
+                    <td>{% if data.mitm_status %}<span class="badge bg-success">Safe</span>{% else %}<span class="badge bg-warning text-dark">Risk</span>{% endif %}</td>
+                    <td>{{ data.latency|default:"N/A" }}</td>
+                    <td>{% if data.revoked %}<span class="badge bg-danger">Yes</span>{% else %}<span class="badge bg-success">No</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+                {% if not statuses_json %}
+                <tr><td colspan="10" class="text-muted">No devices monitored.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- LIVE SCAN SECTION -->
+    <h3 class="mb-3 fw-bold">Live Network Scan</h3>
+    <div class="card p-3 text-center">
+        <button id="scan-btn" class="btn btn-primary mb-3">🔍 Scan Devices</button>
+        <div class="table-responsive">
+            <table id="scan-results" class="table table-bordered align-middle text-center" style="display: none;">
+                <thead>
+                <tr>
+                    <th>IP Address</th>
+                    <th>Hostname</th>
+                    <th>MAC Address</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TESTCASES BUTTON -->
+    <div class="text-center mt-5">
+        <a href="{% url 'testcases' %}" class="btn btn-lg btn-primary px-5">
+            📋 View Testcases
+        </a>
+    </div>
+</div>
+
+<!-- MODE TOGGLE -->
+<div class="mode-toggle">
+    <button class="btn" id="modeBtn"><i class="fa-solid fa-moon" id="modeIcon"></i></button>
+</div>
+
+<!-- JSON DATA -->
+<script id="status-json" type="application/json">{{ statuses|safe }}</script>
+
+<script>
+    /* ---------- DARK/LIGHT TOGGLE ---------- */
+    const body = document.body;
+    const modeBtn = document.getElementById("modeBtn");
+    const modeIcon = document.getElementById("modeIcon");
+    let mode = localStorage.getItem("theme") || "dark";
+    body.className = mode + "-mode";
+
+    function updateButton() {
+        modeIcon.className = (mode === "dark") ? "fa-solid fa-sun" : "fa-solid fa-moon";
+    }
+    updateButton();
+
+    modeBtn.addEventListener("click", () => {
+        mode = (mode === "dark") ? "light" : "dark";
+        body.className = mode + "-mode";
+        updateButton();
+        localStorage.setItem("theme", mode);
+        updateChartsColors();
+    });
+
+    /* ---------- CHARTS ---------- */
+    const statusesData = JSON.parse(document.getElementById("status-json").textContent || "{}");
+
+    let validCount = 0, revokedCount = 0, tamperedCount = 0;
+    for (let dev in statusesData) {
+        const d = statusesData[dev];
+        if (d.revoked) revokedCount++;
+        else if (!d.certificate_status || !d.key_status) tamperedCount++;
+        else if (d.certificate_status && d.key_status && d.mtls_status && d.mitm_status) validCount++;
+    }
+
+    const issues = Number("{{ issues|default:'0' }}");
+    const total = Object.keys(statusesData).length;
+    const active = total - issues;
+
+    const chartColors = {
+        dark: {
+            analytics: ['#4a5568', '#e53e3e', '#dd6b20'],
+            deviceStatus: ['#4a5568', '#e53e3e'],
+            text: '#e8eaed'
+        },
+        light: {
+            analytics: ['#718096', '#c53030', '#c05621'],
+            deviceStatus: ['#718096', '#c53030'],
+            text: '#2c3e50'
+        }
+    };
+
+    const analyticsChart = new Chart(document.getElementById('analyticsChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Valid', 'Revoked', 'Tampered'],
+            datasets: [{ data: [validCount, revokedCount, tamperedCount], backgroundColor: chartColors[mode].analytics }]
+        },
+        options: { plugins: { legend: { position: 'bottom', labels: { color: chartColors[mode].text } } } }
+    });
+
+    const deviceStatusChart = new Chart(document.getElementById('deviceStatusChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Active', 'Issues'],
+            datasets: [{ data: [active, issues], backgroundColor: chartColors[mode].deviceStatus }]
+        },
+        options: { plugins: { legend: { position: 'bottom', labels: { color: chartColors[mode].text } } } }
+    });
+
+    function updateChartsColors() {
+        analyticsChart.data.datasets[0].backgroundColor = chartColors[mode].analytics;
+        deviceStatusChart.data.datasets[0].backgroundColor = chartColors[mode].deviceStatus;
+        analyticsChart.options.plugins.legend.labels.color = chartColors[mode].text;
+        deviceStatusChart.options.plugins.legend.labels.color = chartColors[mode].text;
+        analyticsChart.update();
+        deviceStatusChart.update();
+    }
+
+    /* ---------- LIVE DEVICE SCAN + PROVISION ---------- */
+    document.getElementById("scan-btn").addEventListener("click", function() {
+        fetch("/provisioning/scan/")
+            .then(response => response.json())
+            .then(data => {
+                let table = document.getElementById("scan-results");
+                let tbody = table.querySelector("tbody");
+                tbody.innerHTML = "";
+                data.forEach(device => {
+                    tbody.innerHTML += `<tr>
+                        <td>${device.ip}</td>
+                        <td>${device.hostname}</td>
+                        <td>${device.mac}</td>
+                        <td>${device.status}</td>
+                        <td><button class="btn btn-sm btn-success" onclick="provisionDevice('${device.ip}')">Provision</button></td>
+                    </tr>`;
+                });
+                table.style.display = "table";
+            })
+            .catch(err => alert("Error scanning devices: " + err));
+    });
+
+    function provisionDevice(ip) {
+    fetch("/provisioning/request/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": getCookie("csrftoken") },
+        body: JSON.stringify({ ip: ip })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Provisioned " + ip + " successfully!");
+            // ✅ Reload to refresh table + charts with updated JSON
+            location.reload();
+        } else {
+            alert("Provisioning failed: " + data.error);
+        }
+    });
+}
+
+
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+</body>
+</html>

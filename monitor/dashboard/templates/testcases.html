@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Provisioning Conformance Test Cases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        th {
+            background: #343a40;
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .details {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #343a40;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.6s ease;
+        }
+
+        .details h2 {
+            margin-top: 0;
+            color: #343a40;
+        }
+
+        .highlight {
+            background-color: #fff3cd !important;
+            border-left-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>Provisioning Conformance Test Cases</h1>
+
+    <!-- Summary Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Test No.</th>
+                <th>Test Requirement</th>
+                <th>Mandatory/Optional</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><a href="#TC-1">TC-1</a></td><td>Device requests unique identity/certificate</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-2">TC-2</a></td><td>Mutual authentication between device and server</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-3">TC-3</a></td><td>Bulk provisioning support</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-4">TC-4</a></td><td>Secure credential handling (keys/certs/passwords)</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-5">TC-5</a></td><td>Shared password authentication validation</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-6">TC-6</a></td><td>Firmware tampering detection</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-7">TC-7</a></td><td>Complete audit logging and event traceability</td><td>Mandatory</td></tr>
+            <tr><td><a href="#TC-8">TC-8</a></td><td>Robustness against network/transport faults</td><td>Mandatory</td></tr>
+        </tbody>
+    </table>
+
+    <!-- TC-1 -->
+    <div id="TC-1" class="details">
+        <h2>TC-1: Device Unique ID Assignment & Storage</h2>
+        <p><strong>Purpose:</strong> Verify that a DUT receives a unique, secure identity or certificate during initial provisioning and stores it securely.</p>
+        <p><strong>Preconditions:</strong></p>
+        <ul>
+            <li>DUT is factory-reset/unprovisioned.</li>
+            <li>Provisioning server and PKI/CA are operational.</li>
+            <li>Secure network connection available.</li>
+        </ul>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Power on DUT and connect to provisioning network.</td><td>DUT initiates provisioning request.</td></tr>
+                <tr><td>2</td><td>DUT sends registration/provisioning request message.</td><td>Server receives provisioning request.</td></tr>
+                <tr><td>3</td><td>Server verifies device eligibility (e.g., via whitelist).</td><td>Only eligible devices accepted.</td></tr>
+                <tr><td>4</td><td>Server issues a unique ID or X.509 certificate to DUT.</td><td>DUT receives unique identity; logged.</td></tr>
+                <tr><td>5</td><td>DUT stores identity securely in tamper-resistant hardware.</td><td>Storage successful and acknowledged.</td></tr>
+                <tr><td>6</td><td>DUT performs loopback validation by authenticating to server using new identity.</td><td>Server validates identity successfully.</td></tr>
+                <tr><td>7</td><td>All related provisioning events are logged with timestamps.</td><td>Fully traceable audit trail exists.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Use TPM/HSM, monitor provisioning logs, confirm uniqueness with backend.</p>
+        <p><strong>Expected Output:</strong> Secure unique identity stored on device, successful authentication, detailed logs.</p>
+    </div>
+
+    <!-- TC-2 -->
+    <div id="TC-2" class="details">
+        <h2>TC-2: Device Registration & Mutual Authentication</h2>
+        <p><strong>Purpose:</strong> Validate two-way authentication between the device and server using certificates.</p>
+        <p><strong>Preconditions:</strong> Device has valid certificate (from TC-1), server configured for mTLS.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Device initiates TLS handshake (ClientHello).</td><td>Server replies ServerHello + CertReq.</td></tr>
+                <tr><td>2</td><td>Device sends client certificate.</td><td>Server validates cert.</td></tr>
+                <tr><td>3</td><td>Both parties verify certificates.</td><td>Mutual authentication succeeds.</td></tr>
+                <tr><td>4</td><td>Secure channel established.</td><td>TLS handshake completes.</td></tr>
+                <tr><td>5</td><td>Device sends registration payload.</td><td>Server accepts registration.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Use TLS debug tools, test with invalid/expired certs.</p>
+        <p><strong>Expected Output:</strong> Successful mTLS, encrypted session established.</p>
+    </div>
+
+    <!-- TC-3 -->
+    <div id="TC-3" class="details">
+        <h2>TC-3: Bulk Onboarding & Race Condition Handling</h2>
+        <p><strong>Purpose:</strong> Validate server stability under concurrent provisioning (≥100 devices).</p>
+        <p><strong>Preconditions:</strong> Batch of devices, server configured for concurrency.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Simultaneously connect ≥100 devices.</td><td>All devices send requests.</td></tr>
+                <tr><td>2</td><td>Server processes requests and issues unique IDs.</td><td>No collisions/errors.</td></tr>
+                <tr><td>3</td><td>Monitor server load and latency.</td><td>Stable and timely responses.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Automate load tests, simulate network faults.</p>
+        <p><strong>Expected Output:</strong> All devices get unique IDs; server stable under load.</p>
+    </div>
+
+    <!-- TC-4 -->
+    <div id="TC-4" class="details">
+        <h2>TC-4: Invalid Credential Rejection</h2>
+        <p><strong>Purpose:</strong> Ensure server rejects invalid/expired/revoked credentials.</p>
+        <p><strong>Preconditions:</strong> Tampered/expired certs available; revocation list active.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Provision with invalid credential.</td><td>Server rejects request.</td></tr>
+                <tr><td>2</td><td>Server returns error message.</td><td>Device sees rejection reason.</td></tr>
+                <tr><td>3</td><td>Server logs incident with reason codes.</td><td>Complete audit log exists.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Test with revoked/expired/malformed certs.</p>
+        <p><strong>Expected Output:</strong> Rejected provisioning, detailed logs.</p>
+    </div>
+
+    <!-- TC-5 -->
+    <div id="TC-5" class="details">
+        <h2>TC-5: Shared Password Authentication Validation</h2>
+        <p><strong>Purpose:</strong> Validate provisioning flow with shared batch passwords and rotations.</p>
+        <p><strong>Preconditions:</strong> Devices configured with shared passwords, server maintains rotated list.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Provision with correct password.</td><td>Provisioning succeeds.</td></tr>
+                <tr><td>2</td><td>Provision with wrong/expired password.</td><td>Provisioning rejected.</td></tr>
+                <tr><td>3</td><td>Rotate password on server.</td><td>Old rejected, new accepted.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Include negative tests, rotate passwords regularly.</p>
+        <p><strong>Expected Output:</strong> Passwords validated correctly, rejections logged.</p>
+    </div>
+
+    <!-- TC-6 -->
+    <div id="TC-6" class="details">
+        <h2>TC-6: Firmware Tampering & Policy Compliance</h2>
+        <p><strong>Purpose:</strong> Validate server blocks devices with unauthorized firmware.</p>
+        <p><strong>Preconditions:</strong> Devices flashed with tampered firmware.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Attempt provisioning with tampered firmware.</td><td>Server denies request, logs alert.</td></tr>
+                <tr><td>2</td><td>Check alert logs.</td><td>Logs show tampering detected.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Use cryptographic checks, test bypass attempts.</p>
+        <p><strong>Expected Output:</strong> Tampered devices denied provisioning.</p>
+    </div>
+
+    <!-- TC-7 -->
+    <div id="TC-7" class="details">
+        <h2>TC-7: Logging, Audit Trail & Traceability</h2>
+        <p><strong>Purpose:</strong> Ensure provisioning events are logged for audit/forensic analysis.</p>
+        <p><strong>Preconditions:</strong> Server logging enabled.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Perform provisioning (success & failure cases).</td><td>All events logged with timestamps.</td></tr>
+                <tr><td>2</td><td>Review logs for IDs, times, errors.</td><td>Logs complete and unaltered.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Verify logs integrity with hashes.</p>
+        <p><strong>Expected Output:</strong> Full traceability with no missing events.</p>
+    </div>
+
+    <!-- TC-8 -->
+    <div id="TC-8" class="details">
+        <h2>TC-8: Network Interruption Recovery</h2>
+        <p><strong>Purpose:</strong> Validate provisioning robustness under network faults.</p>
+        <p><strong>Preconditions:</strong> Network fault injection available.</p>
+        <h3>Procedure</h3>
+        <table>
+            <thead><tr><th>Step</th><th>Action</th><th>Expected Result</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Start provisioning on DUT.</td><td>Provisioning initiated.</td></tr>
+                <tr><td>2</td><td>Interrupt connectivity mid-process.</td><td>Fails gracefully or pauses.</td></tr>
+                <tr><td>3</td><td>Restore connectivity and retry.</td><td>Provisioning completes or fails cleanly.</td></tr>
+            </tbody>
+        </table>
+        <p><strong>Execution Tips:</strong> Test with controlled network faults, confirm no duplicate IDs.</p>
+        <p><strong>Expected Output:</strong> Graceful recovery or clean failure.</p>
+    </div>
+
+    <script>
+        document.querySelectorAll("a[href^='#']").forEach(link => {
+            link.addEventListener("click", function(event) {
+                document.querySelectorAll(".details").forEach(div => div.classList.remove("highlight"));
+                const target = document.getElementById(this.getAttribute("href").substring(1));
+                if (target) {
+                    target.classList.add("highlight");
+                    setTimeout(() => target.classList.remove("highlight"), 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

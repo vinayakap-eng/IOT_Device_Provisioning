@@ -1,0 +1,33 @@
+import requests
+import subprocess
+import shutil
+import os
+
+# Generate key
+subprocess.run(["openssl", "genrsa", "-out", "device.key", "2048"], check=True)
+
+# Generate CSR with proper subject
+subprocess.run([
+    "openssl", "req", "-new",
+    "-key", "device.key",
+    "-out", "device.csr",
+    "-subj", "/CN=device1"
+], check=True)
+
+# Enroll
+with open("device.csr", "rb") as f:
+    r = requests.post("https://localhost:5000/enroll", files={"csr": f}, verify=False)
+
+# Save certificate
+with open("device.crt", "wb") as f:
+    f.write(r.content)
+
+print("✅ Certificate enrolled")
+
+# Backup cert and key for monitoring
+monitor_dir = "../monitor"
+os.makedirs(monitor_dir, exist_ok=True)
+
+shutil.copy("device.crt", os.path.join(monitor_dir, "device.crt.original"))
+shutil.copy("device.key", os.path.join(monitor_dir, "device.key.original"))
+print("📤 Synced cert and key to monitor for integrity check")

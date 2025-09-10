@@ -1,0 +1,24 @@
+[
+  {
+    "cn": "CN=device1",
+    "valid_from": "2025-07-10 06:50:48+00:00",
+    "valid_to": "2035-07-08 06:50:48+00:00",
+    "certificate_status": true,
+    "key_status": true,
+    "mtls_status": true,
+    "mitm_status": true,
+    "revoked": false,
+    "last_checked": "2025-07-11 07:15:55 UTC"
+  },
+  {
+    "cn": "CN=device2",
+    "valid_from": "2025-07-05 04:20:18+00:00",
+    "valid_to": "2035-07-03 04:20:18+00:00",
+    "certificate_status": false,
+    "key_status": true,
+    "mtls_status": false,
+    "mitm_status": false,
+    "revoked": true,
+    "last_checked": "2025-07-11 07:16:02 UTC"
+  }
+]

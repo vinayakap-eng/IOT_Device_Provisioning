@@ -1,0 +1,90 @@
+Sat Jun 28 12:38:18 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 12:38:18 2025 - 📥 CRL updated
+Sat Jun 28 12:38:18 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 12:38:18 2025 - 🔐 Key file size OK
+Sat Jun 28 12:38:18 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 12:38:18 2025 - ❌ mTLS connection failed: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1007)
+Sat Jun 28 12:41:22 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 12:41:22 2025 - 📥 CRL updated
+Sat Jun 28 12:41:22 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 12:41:22 2025 - 🔐 Key file size OK
+Sat Jun 28 12:41:22 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 12:41:22 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 12:41:37 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 12:41:37 2025 - 📥 CRL updated
+Sat Jun 28 12:41:37 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 12:41:37 2025 - 🔐 Key file size OK
+Sat Jun 28 12:41:37 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 12:41:37 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 14:55:08 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 14:55:08 2025 - 📥 CRL updated
+Sat Jun 28 14:55:08 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 14:55:08 2025 - 🔐 Key file size OK
+Sat Jun 28 14:55:08 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 14:55:08 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 14:58:16 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 14:58:16 2025 - 📥 CRL updated
+Sat Jun 28 14:58:16 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 14:58:16 2025 - 🔐 Key file size OK
+Sat Jun 28 14:58:16 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 14:58:16 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 14:58:32 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 14:58:32 2025 - 📥 CRL updated
+Sat Jun 28 14:58:32 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 14:58:32 2025 - 🔐 Key file size OK
+Sat Jun 28 14:58:32 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 14:58:32 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 14:58:47 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 14:58:47 2025 - 📥 CRL updated
+Sat Jun 28 14:58:47 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 14:58:47 2025 - 🔐 Key file size OK
+Sat Jun 28 14:58:47 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 14:58:47 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 14:59:02 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 14:59:02 2025 - 📥 CRL updated
+Sat Jun 28 14:59:02 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 14:59:02 2025 - 🔐 Key file size OK
+Sat Jun 28 14:59:02 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 14:59:02 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 15:00:35 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 15:00:35 2025 - 📥 CRL updated
+Sat Jun 28 15:00:35 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 15:00:35 2025 - 🔐 Key file size OK
+Sat Jun 28 15:00:35 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 15:00:35 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 15:01:59 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 15:01:59 2025 - 📥 CRL updated
+Sat Jun 28 15:01:59 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 15:01:59 2025 - 🔐 Key file size OK
+Sat Jun 28 15:01:59 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 15:01:59 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 15:03:03 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 15:03:03 2025 - 📥 CRL updated
+Sat Jun 28 15:03:03 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 15:03:03 2025 - 🔐 Key file size OK
+Sat Jun 28 15:03:03 2025 - ❌ Error checking revocation: Unable to load PEM file. See https://cryptography.io/en/latest/faq/#why-can-t-i-import-my-pem-file for more details. MalformedFraming
+Sat Jun 28 15:03:03 2025 - ❌ mTLS connection failed: [Errno 2] No such file or directory
+Sat Jun 28 15:12:17 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 15:12:17 2025 - 📥 CRL updated
+Sat Jun 28 15:12:17 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 15:12:17 2025 - 🔐 Key file size OK
+Sat Jun 28 15:12:17 2025 - ❌ Error checking revocation: error parsing asn1 value: ParseError { kind: UnexpectedTag { actual: Tag { value: 28, constructed: true, class: Universal } } }
+Sat Jun 28 15:12:17 2025 - 🔒 mTLS handshake successful
+Sat Jun 28 15:16:10 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Sat Jun 28 15:16:10 2025 - 📥 CRL updated
+Sat Jun 28 15:16:10 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Sat Jun 28 15:16:10 2025 - 🔐 Key file size OK
+Sat Jun 28 15:16:10 2025 - ❌ Error checking revocation: error parsing asn1 value: ParseError { kind: UnexpectedTag { actual: Tag { value: 28, constructed: true, class: Universal } } }
+Sat Jun 28 15:16:10 2025 - 🔒 mTLS handshake successful
+Mon Jun 30 10:35:15 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Mon Jun 30 10:35:15 2025 - 📥 CRL updated
+Mon Jun 30 10:35:15 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Mon Jun 30 10:35:15 2025 - 🔐 Key file size OK
+Mon Jun 30 10:35:15 2025 - ❌ Error checking revocation: error parsing asn1 value: ParseError { kind: UnexpectedTag { actual: Tag { value: 28, constructed: true, class: Universal } } }
+Mon Jun 30 10:35:15 2025 - 🔒 mTLS handshake successful
+Mon Jun 30 10:35:30 2025 - ✅ Issued cert -> V	260628063816Z		1000	unknown	/CN=device1
+Mon Jun 30 10:35:30 2025 - 📥 CRL updated
+Mon Jun 30 10:35:30 2025 - 🔍 Device certificate SHA256: 0d15fac4a6c4470e933cab1dc95ed3729824525852146bcf4f6e4fb9804fa462
+Mon Jun 30 10:35:30 2025 - 🔐 Key file size OK
+Mon Jun 30 10:35:30 2025 - ❌ Error checking revocation: error parsing asn1 value: ParseError { kind: UnexpectedTag { actual: Tag { value: 28, constructed: true, class: Universal } } }
+Mon Jun 30 10:35:30 2025 - 🔒 mTLS handshake successful
