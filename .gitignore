@@ -1,0 +1,15 @@
+# Sensitive files
+.env
+config.ini
+*.key
+*.pem
+
+# Logs and temporary files
+*.log
+*.tmp
+build/
+
+# Dependencies and IDE files
+node_modules/
+__pycache__/
+.vscode/
